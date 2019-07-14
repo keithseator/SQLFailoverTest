@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
-    <Compile Include="DateTime.cs" />
+    <Compile Include="DateTimeClass.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="TestWrite.cs">
       <SubType>Form</SubType>

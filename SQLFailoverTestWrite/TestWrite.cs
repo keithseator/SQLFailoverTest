@@ -13,7 +13,7 @@ namespace SQLFailoverTestWrite
     public partial class TestWrite : Form
     { 
 
-    List<DateTime> listOFDates = new List <DateTime>();
+    List<DateTimeClass> listOFDates = new List <DateTimeClass>();
     
         public TestWrite()
         {
@@ -26,7 +26,7 @@ namespace SQLFailoverTestWrite
         private void UpdateBinding()
         {
             latestDBWritesListBox.DataSource = listOFDates;
-            latestDBWritesListBox.DisplayMember = "InsertTime";
+            latestDBWritesListBox.DisplayMember = "TimeLog";
         }
 
         private void btn_InsertToDatabase_Click(object sender, EventArgs e)

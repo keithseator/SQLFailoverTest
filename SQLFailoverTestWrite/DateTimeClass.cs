@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SQLFailoverTestWrite
 {
-    public class DateTime
+    public class DateTimeClass
     {
-        public int ID { get; set; }
-        public DateTime DatabaseTime { get; set; }
-        public DateTime InsertTime { get; set; }
+        
+        public DateTime TimeLog { get; set; }
+
 
     }
 }
