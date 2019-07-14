@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQLFailoverTestWrite
 {
-    class DateTime
+    public class DateTime
     {
         public int ID { get; set; }
         public DateTime DatabaseTime { get; set; }
@@ -14,3 +14,6 @@ namespace SQLFailoverTestWrite
 
     }
 }
+
+
+

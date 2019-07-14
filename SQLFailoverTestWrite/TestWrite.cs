@@ -18,13 +18,24 @@ namespace SQLFailoverTestWrite
         public TestWrite()
         {
             InitializeComponent();
+
+            UpdateBinding();
+
+        }
+
+        private void UpdateBinding()
+        {
+            latestDBWritesListBox.DataSource = listOFDates;
+            latestDBWritesListBox.DisplayMember = "InsertTime";
         }
 
         private void btn_InsertToDatabase_Click(object sender, EventArgs e)
         {
             DataAccess db = new DataAccess();
 
-            listOFDates = db.GetDates(10);
+            listOFDates = db.GetDates(2);
+
+            UpdateBinding();
         }
     }
 }
