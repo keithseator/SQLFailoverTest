@@ -19,5 +19,15 @@ namespace SQLFailoverTestWrite
                 return output;
             }
         }
+
+        public void InsertDates()
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.CnnVal("TestDatabase")))
+            {
+                var dateTimeNow = DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss.fff");
+                //System.Windows.Forms.MessageBox.Show(dateTimeNow);
+                connection.Query<DateTimeClass>($"INSERT INTO TimeLogTable (Timelog) VALUES (CAST(N'{dateTimeNow}' AS DateTime))");
+            }
+        }
     }
 }
