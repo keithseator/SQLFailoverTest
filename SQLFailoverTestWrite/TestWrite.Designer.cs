@@ -31,6 +31,7 @@
             this.latestDBWritesListBox = new System.Windows.Forms.ListBox();
             this.btn_InsertToDatabase = new System.Windows.Forms.Button();
             this.btnStopInsert = new System.Windows.Forms.Button();
+            this.btnFillTextBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // latestDBWritesListBox
@@ -61,11 +62,22 @@
             this.btnStopInsert.UseVisualStyleBackColor = true;
             this.btnStopInsert.Click += new System.EventHandler(this.btnStopInsert_Click);
             // 
+            // btnFillTextBox
+            // 
+            this.btnFillTextBox.Location = new System.Drawing.Point(329, 12);
+            this.btnFillTextBox.Name = "btnFillTextBox";
+            this.btnFillTextBox.Size = new System.Drawing.Size(75, 23);
+            this.btnFillTextBox.TabIndex = 3;
+            this.btnFillTextBox.Text = "Fill Text Box";
+            this.btnFillTextBox.UseVisualStyleBackColor = true;
+            this.btnFillTextBox.Click += new System.EventHandler(this.btnFillTextBox_Click);
+            // 
             // TestWrite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnFillTextBox);
             this.Controls.Add(this.btnStopInsert);
             this.Controls.Add(this.btn_InsertToDatabase);
             this.Controls.Add(this.latestDBWritesListBox);
@@ -80,6 +92,7 @@
         private System.Windows.Forms.ListBox latestDBWritesListBox;
         private System.Windows.Forms.Button btn_InsertToDatabase;
         private System.Windows.Forms.Button btnStopInsert;
+        private System.Windows.Forms.Button btnFillTextBox;
     }
 }
 
