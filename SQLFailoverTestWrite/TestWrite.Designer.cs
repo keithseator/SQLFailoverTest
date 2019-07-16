@@ -80,7 +80,7 @@
             this.Controls.Add(this.btnFillTextBox);
             this.Controls.Add(this.btnStopInsert);
             this.Controls.Add(this.btn_InsertToDatabase);
-            this.Controls.Add(this.latestDBWritesListBox);
+            this.Controls.Add(latestDBWritesListBox);
             this.Name = "TestWrite";
             this.Text = "Test SQL Write";
             this.ResumeLayout(false);

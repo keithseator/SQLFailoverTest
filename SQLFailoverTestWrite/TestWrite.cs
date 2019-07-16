@@ -13,11 +13,11 @@ using Timer = System.Timers.Timer;
 namespace SQLFailoverTestWrite
 {
     public partial class TestWrite : Form
-    { 
+    {
 
         //List<DateTimeClass> listOFDates = new List <DateTimeClass>();
         Timer t = new Timer(1000);
-        
+
 
         public TestWrite()
         {
@@ -84,7 +84,7 @@ namespace SQLFailoverTestWrite
             {
                 var dateTimeNow = DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss.fff");
                 string insertDate = $"INSERT INTO TimeLogTable (Timelog) VALUES (CAST(N'{dateTimeNow}' AS DateTime))";
-                string readDates = "SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC";
+                //string readDates = "SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC";
 
                 using (SqlCommand queryInsertDate = new SqlCommand(insertDate))
                 {
@@ -101,10 +101,15 @@ namespace SQLFailoverTestWrite
                     }
                     finally
                     {
+                        //refreshListBox();
                         openCon.Close();
                     }
                 }
             }
+
+
+
+
         }
 
         private void btnStopInsert_Click(object sender, EventArgs e)
@@ -131,8 +136,8 @@ namespace SQLFailoverTestWrite
                         latestDBWritesListBox.Items.Add(reader[0].ToString());
                     }
                 }
-                    //var dt = (DateTime)cmd.ExecuteScalar();
-                    //List<DateTime> dt = (DateTime)cmd.ExecuteQuery();
+                //var dt = (DateTime)cmd.ExecuteScalar();
+                //List<DateTime> dt = (DateTime)cmd.ExecuteQuery();
                 //MessageBox.Show(dt.ToString());
             }
 
@@ -191,6 +196,31 @@ namespace SQLFailoverTestWrite
             //        }
             //    }
             //}
+        }
+
+        private void refreshListBox()
+        {
+            var connString = "Server=localhost;Database=TestDatabase;Trusted_Connection=True";
+
+            latestDBWritesListBox.Items.Clear();
+
+            using (var conn = new SqlConnection(connString))
+            {
+                var cmd = new SqlCommand("SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
+                conn.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        //MessageBox.Show(reader[0].ToString());
+                        latestDBWritesListBox.Items.Add(reader[0].ToString());
+                    }
+                }
+                //var dt = (DateTime)cmd.ExecuteScalar();
+                //List<DateTime> dt = (DateTime)cmd.ExecuteQuery();
+                //MessageBox.Show(dt.ToString());
+            }
         }
     }
 }
