@@ -78,7 +78,7 @@ namespace SQLFailoverTestWrite
 
             using (var conn = new SqlConnection(Helper.CnnVal("TestDatabase")))
             {
-                var cmd = new SqlCommand("SELECT TOP 17 * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
+                var cmd = new SqlCommand("SELECT * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
                 try
                 {
                     conn.Open();
@@ -120,7 +120,7 @@ namespace SQLFailoverTestWrite
 
         private void btnDoNotPress_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("I said don't fucking press it!!!");
+            MessageBox.Show("I SAID DON'T FUCKING PRESS IT!!!");
         }
     }
 }
