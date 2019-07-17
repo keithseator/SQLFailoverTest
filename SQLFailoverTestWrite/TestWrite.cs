@@ -14,77 +14,27 @@ namespace SQLFailoverTestWrite
 {
     public partial class TestWrite : Form
     {
-
-        //List<DateTimeClass> listOFDates = new List <DateTimeClass>();
         Timer t = new Timer(1000);
-
 
         public TestWrite()
         {
             InitializeComponent();
-
-            //DataAccess db = new DataAccess();
-
-            //listOFDates = db.GetDates(2);
-
-            //UpdateBinding();
-
-        }
-
-        private void UpdateBinding()
-        {
-            //latestDBWritesListBox.DataSource = listOFDates;
-            //latestDBWritesListBox.DisplayMember = "TimeLog";
+            FillTextBox();
         }
 
         private void btn_InsertToDatabase_Click(object sender, EventArgs e)
         {
-            //using (SqlConnection openCon = new SqlConnection("Server=localhost;Database=TestDatabase;Trusted_Connection=True"))
-            //{
-            //    var dateTimeNow = DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss.fff");
-            //    string insertDate = $"INSERT INTO TimeLogTable (Timelog) VALUES (CAST(N'{dateTimeNow}' AS DateTime))";
-
-            //    using (SqlCommand queryInsertDate = new SqlCommand(insertDate))
-            //    {
-            //        queryInsertDate.Connection = openCon;
-
-            //        try
-            //        {
-            //            openCon.Open();
-            //            queryInsertDate.ExecuteNonQuery();
-            //        }
-            //        catch (SqlException)
-            //        {
-            //            // error here
-            //        }
-            //        finally
-            //        {
-            //            openCon.Close();
-            //        }
-            //    }
-            //}
-            //1 sec = 1000, 60 sec = 60000
-
             t.AutoReset = true;
-
             t.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed);
-
             t.Start();
-
-
         }
 
-        private static void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-
+        private void InsertDatesIntoDatabase()
         {
-            //DataAccess db = new DataAccess();
-            //db.InsertDates();
-            //UpdateBinding();
-            using (SqlConnection openCon = new SqlConnection("Server=localhost;Database=TestDatabase;Trusted_Connection=True"))
+            using (SqlConnection openCon = new SqlConnection(Helper.CnnVal("TestDatabase")))
             {
                 var dateTimeNow = DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss.fff");
                 string insertDate = $"INSERT INTO TimeLogTable (Timelog) VALUES (CAST(N'{dateTimeNow}' AS DateTime))";
-                //string readDates = "SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC";
 
                 using (SqlCommand queryInsertDate = new SqlCommand(insertDate))
                 {
@@ -101,15 +51,15 @@ namespace SQLFailoverTestWrite
                     }
                     finally
                     {
-                        //refreshListBox();
                         openCon.Close();
                     }
                 }
             }
+        }
 
-
-
-
+        private void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            InsertDatesIntoDatabase();
         }
 
         private void btnStopInsert_Click(object sender, EventArgs e)
@@ -119,108 +69,58 @@ namespace SQLFailoverTestWrite
 
         private void btnFillTextBox_Click(object sender, EventArgs e)
         {
-            var connString = "Server=localhost;Database=TestDatabase;Trusted_Connection=True";
-
-            latestDBWritesListBox.Items.Clear();
-
-            using (var conn = new SqlConnection(connString))
-            {
-                var cmd = new SqlCommand("SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
-                conn.Open();
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        //MessageBox.Show(reader[0].ToString());
-                        latestDBWritesListBox.Items.Add(reader[0].ToString());
-                    }
-                }
-                //var dt = (DateTime)cmd.ExecuteScalar();
-                //List<DateTime> dt = (DateTime)cmd.ExecuteQuery();
-                //MessageBox.Show(dt.ToString());
-            }
-
-
-
-
-
-            //using (SqlConnection c = new SqlConnection(connString))
-            //{
-            //    c.Open();
-
-            //    //use a SqlAdapter to execute the query
-            //    using (SqlDataAdapter a = new SqlDataAdapter("SELECT * FROM TimeLogTable", c))
-            //    {
-            //        // fill a data table
-            //        var t = new DataTable();
-            //        //t.Columns.Add("TimeLog", typeof(DateTime));
-            //        a.Fill(t);
-
-            //        // Bind the table to the list box
-            //        latestDBWritesListBox.DisplayMember = "TimeLog";
-            //        latestDBWritesListBox.ValueMember = "TimeLog";
-            //        latestDBWritesListBox.DataSource = t;
-            //    }
-
-
-
-
-            //}
-
-
-
-
-            //using (SqlConnection openCon = new SqlConnection("Server=localhost;Database=TestDatabase;Trusted_Connection=True"))
-            //{
-            //    string rertieveDate = $"SELECT * FROM TimeLogTable";
-
-            //    using (SqlCommand queryRetrieveDate = new SqlCommand(rertieveDate))
-            //    {
-            //        queryRetrieveDate.Connection = openCon;
-
-            //        try
-            //        {
-            //            openCon.Open();
-            //            List<DateTime> balls = new List<DateTime>;
-            //            balls = queryRetrieveDate.ExecuteNonQuery().;
-            //            MessageBox.Show(someshit.ToString());
-            //        }
-            //        catch (SqlException)
-            //        {
-            //            error here
-            //        }
-            //        finally
-            //        {
-            //            openCon.Close();
-            //        }
-            //    }
-            //}
+            FillTextBox();
         }
 
-        private void refreshListBox()
+        private void FillTextBox()
         {
-            var connString = "Server=localhost;Database=TestDatabase;Trusted_Connection=True";
-
             latestDBWritesListBox.Items.Clear();
 
-            using (var conn = new SqlConnection(connString))
+            using (var conn = new SqlConnection(Helper.CnnVal("TestDatabase")))
             {
-                var cmd = new SqlCommand("SELECT TOP 10 * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
-                conn.Open();
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                var cmd = new SqlCommand("SELECT TOP 17 * FROM TimeLogTable ORDER BY TimeLog DESC", conn);
+                try
                 {
-                    while (reader.Read())
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        //MessageBox.Show(reader[0].ToString());
-                        latestDBWritesListBox.Items.Add(reader[0].ToString());
+                        while (reader.Read())
+                        {
+                            latestDBWritesListBox.Items.Add(reader[0].ToString());
+                        }
                     }
                 }
-                //var dt = (DateTime)cmd.ExecuteScalar();
-                //List<DateTime> dt = (DateTime)cmd.ExecuteQuery();
-                //MessageBox.Show(dt.ToString());
+                catch
+                {
+
+                }
             }
+        }
+
+        private void btnClearTimes_Click(object sender, EventArgs e)
+        {
+            latestDBWritesListBox.Items.Clear();
+
+            using (var conn = new SqlConnection(Helper.CnnVal("TestDatabase")))
+            {
+                var cmd = new SqlCommand("DELETE FROM TimeLogTable", conn);
+                try
+                {
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void btnDoNotPress_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("I said don't fucking press it!!!");
         }
     }
 }
